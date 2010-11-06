@@ -1,0 +1,10 @@
+src/??.java
+orig
+build
+dist
+nbproject/*
+!nbproject/project.properties
+!nbproject/project.xml
+
+#Don't want to mirror this, expect everyone to provide it on their own.
+minecraft_server.jar
