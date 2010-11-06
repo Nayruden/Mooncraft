@@ -6,7 +6,6 @@
  * California, 94105, USA.
  */
 
-
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.*;
@@ -24,19 +23,20 @@ public class Mooncraft {
 
         PlayerConnect("OnPlayerConnect"),
         PlayerDisconnect("OnPlayerDisconnect"),
-        PlayerChat("OnPlayerChat");
-        
+        PlayerChat("OnPlayerChat"),
+        ServerCommand("OnServerCommand"),
+        Init("OnInit");
         protected String callback_name;
 
         private Callback(String callback_name) {
             this.callback_name = callback_name;
         }
 
-        public void call(Object... arguments) {
-            Object[] newargs = new Object[arguments.length+1];
+        public Object call(Object... arguments) {
+            Object[] newargs = new Object[arguments.length + 1];
             newargs[0] = callback_name;
             System.arraycopy(arguments, 0, newargs, 1, arguments.length);
-            Call(LCallHook, newargs);
+            return Call(LCallHook, newargs);
         }
     }
 
@@ -52,11 +52,11 @@ public class Mooncraft {
         L = LuaStateFactory.newLuaState();
         L.openLibs();
 
-        if (!new File("lua/includes/init.lua").isFile()) {
-            System.err.println("FATAL: Could not find lua/includes/init.lua");
+        if (!new File("lua/includes/preinit.lua").isFile()) {
+            System.err.println("FATAL: Could not find lua/includes/preinit.lua");
             return;
         }
-        DoFile("lua/includes/init.lua");
+        DoFile("lua/includes/preinit.lua");
         LuaObject hooks = L.getLuaObject("hooks");
 
         LuaObject LRegisterHook;
@@ -71,6 +71,8 @@ public class Mooncraft {
         for (Callback callback : Callback.values()) {
             Call(LRegisterHook, callback.callback_name);
         }
+
+        DoFile("lua/includes/init.lua");
 
         File autorun_dir = new File("lua/autorun");
         if (!autorun_dir.isDirectory()) {
@@ -88,6 +90,8 @@ public class Mooncraft {
             DoFile("lua/autorun/" + file);
         }
 
+        Callback.Init.call();
+
         MinecraftServer.main(args); // This will loop until server end
     }
 
@@ -98,11 +102,14 @@ public class Mooncraft {
         }
     }
 
-    public static void Call(LuaObject fn, Object... arguments) {
+    public static Object Call(LuaObject fn, Object... arguments) {
+        Object obj = null;
         try {
-            fn.call(arguments);
+            obj = fn.call(arguments);
         } catch (LuaException ex) {
             System.err.println(ex);
+        } finally {
+            return obj;
         }
     }
 }

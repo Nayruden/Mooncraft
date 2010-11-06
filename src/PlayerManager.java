@@ -9,15 +9,20 @@
 import java.util.*;
 
 public class PlayerManager {
-    static Map<String, Player> players = new TreeMap<String, Player>();
+    private static Map<String, Player> players = new TreeMap<String, Player>();
 
-    public static Player AddPlayer(eo player_obj) {
+    static Player AddPlayer(eo player_obj) {
         Player player = new Player(player_obj);
         players.put(player_obj.ar, player);
         return player;
     }
 
-    public static Player GetPlayer(String name) {
+    public static Player GetByName(String name) {
         return players.get(name);
+    }
+
+    public static Player[] GetAll() {
+        Player players_arr[] = new Player[ players.size() ];
+        return players.values().toArray(players_arr);
     }
 }

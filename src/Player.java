@@ -6,7 +6,7 @@
  * California, 94105, USA.
  */
 
-public class Player {
+public class Player implements ICommandIssuer {
 
     public final eo player_obj;
 
@@ -29,5 +29,14 @@ public class Player {
 
     public void SendMessage(String msg) {
         player_obj.a.b(msg);
+    }
+
+    public void DoCrap()
+    {
+        System.out.println( "Crap done!" );
+    }
+
+    public boolean IsConsole() {
+        return false;
     }
 }
