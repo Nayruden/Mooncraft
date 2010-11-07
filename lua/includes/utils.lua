@@ -64,3 +64,7 @@ function ParseArgs( args )
 
     return argv, in_quote
 end
+
+function StripFirstWord( str )
+    return (str:gsub( "^%S-%s+", "" )) -- Strip first word and spacing
+end

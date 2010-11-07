@@ -2,7 +2,7 @@ MOD = RegisterMod( "Base", "Nayruden", "0.1-Alpha" )
 
 local function FetchMod( player, args )
     local mods = MOD:GetMods()
-    local modname = args:gsub( "^.-%s+", "" ) -- Strip first word and spacing
+    local modname = StripFirstWord( args ):lower()
     if not mods[ modname ] then
         player:SendMessage( "Unknown mod: " .. modname )
         return
@@ -14,6 +14,11 @@ end
 MOD:AddServerCommand( "stopmod", function( player, args, argv )
     local mod = FetchMod( player, args )
     if not mod then return end
+
+    if mod.modname == "Base" then
+        player:SendMessage( "the base mod cannot be stopped" )
+        return
+    end
 
     mod:Stop()
 end )
@@ -42,7 +47,23 @@ MOD:AddServerCommand( "listmods", function( player, args, argv )
     end
 end )
 
-MOD:AddServerCommand( "luarun", function( player, args, argc )
-    args = args:gsub( "^luarun%s", "" )
-    loadstring( args )()
+MOD:AddServerCommand( "luarun", function( player, args, argv )
+    local code = StripFirstWord( args )
+    local collecting_results = false
+    if code:sub( 1, 1 ) == "=" then
+        code = "return " .. code:sub( 2 )
+        collecting_results = true
+    end
+
+    local chunk, err = loadstring( code )
+    if not chunk then
+        player:SendMessage( err )
+    else
+        local results = { pcall( chunk ) }
+        if not results[ 1 ] then
+            player:SendMessage( results[ 2 ] )
+        elseif collecting_results then
+            player:SendMessage( table.concat( results, "\t", 2 ) )
+        end
+    end
 end )

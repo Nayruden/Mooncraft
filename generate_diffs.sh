@@ -6,6 +6,6 @@ do
     filename=$(basename $f)
     if [ -f "src/$filename" ]
     then
-        diff -uw orig/$filename src/$filename > diffs/$filename
+        diff -uw -L orig/$filename orig/$filename src/$filename > diffs/$filename
     fi
 done

@@ -22,7 +22,7 @@ local function index( mod, key )
                 AddHook( self, key, priority, fn )
             end
         else
-            print( "WARNING: MOD." .. key .. " was used. Did you mean to use a hook? Registering just in case" )
+            print( "WARNING: MOD." .. key .. " was used. Did you mean to use a hook?" )
         end
     end
 end
@@ -93,7 +93,7 @@ end
 local function OnServerCommand( player, args )
     local argv = ParseArgs( args )
     if server_commands[ argv[ 1 ] ] then
-        server_commands[ argv[ 1 ] ].fn( player, args, argv )
+        server_commands[ argv[ 1 ] ].fn( player, args, argv ) -- TODO: pcall
         return true -- Block other hooks
     end
 end

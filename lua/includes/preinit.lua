@@ -45,7 +45,7 @@ function Call( hook, ... )
 end
 
 function RegisterHookName( hook )
-    print( hook, "hook registered" )
+    print( "hook registered", hook )
     hook_names[ hook ] = true
     hooks[ hook ] = {}
 end

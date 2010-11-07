@@ -1,0 +1,11 @@
+Mooncraft
+
+Installation from binaries:
+Copy the lua folder, mooncraft.jar, luajava-1.1.dll, and libluajava-1.1.jnilib to your minecraft server folder containing minecraft_server.jar.
+
+Running:
+On Windows, run Mooncraft with the following console command
+java -Xmx1024M -Xms1024M -jar mooncraft.jar nogui
+
+On Mac (and Linux I assume, though I haven't tested), run Minecraft with the following console command
+java -cp mooncraft.jar:minecraft_server.jar -Xmx1024M -Xms1024M Mooncraft nogui
