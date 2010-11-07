@@ -16,7 +16,7 @@ public class Console implements ICommandIssuer {
     }
 
     public String GetName() {
-        return "CONSOLE";
+        return Server.server.c();
     }
 
     public boolean IsConsole() {
@@ -25,5 +25,10 @@ public class Console implements ICommandIssuer {
 
     static Console GetInstance() {
         return console;
+    }
+
+    public void SendMessage(String msg) {
+        msg = msg.replaceAll("§\\p{XDigit}", "");
+        System.out.println(msg);
     }
 }

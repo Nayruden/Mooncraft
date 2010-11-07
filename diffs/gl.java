@@ -1,4 +1,4 @@
---- orig/gl.java	2010-11-04 23:53:08.000000000 -0500
+--- orig/gl.java
 +++ src/gl.java	2010-11-05 18:37:23.000000000 -0500
 @@ -17,9 +17,9 @@
    private MinecraftServer c;

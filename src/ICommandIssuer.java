@@ -7,6 +7,10 @@
  */
 
 public interface ICommandIssuer {
+
     public String GetName();
+
     public boolean IsConsole();
+
+    public void SendMessage(String msg);
 }

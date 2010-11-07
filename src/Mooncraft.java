@@ -90,9 +90,7 @@ public class Mooncraft {
 
         for (String file : lua_files) {
             DoFile("lua/autorun/" + file);
-        }
-
-        Callback.Init.call();
+        }        
 
         MooncraftServer.main(args); // This will loop until server end
     }

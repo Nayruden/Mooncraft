@@ -1,3 +1,13 @@
+function ColoredString( ... )
+    local args = { ... }
+    for i=1, #args do
+        if type( args[ i ] ) == "number" then -- Color!
+            args[ i ] = string.format( "§%x", args[ i ] )
+        end
+    end
+    return table.concat( args, "" )
+end
+
 module( "Color" )
 
 -- VGA Palette colors

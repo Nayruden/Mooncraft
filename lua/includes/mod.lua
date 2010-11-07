@@ -2,14 +2,14 @@ local function SortHooks( a, b )
     return a.priority < b.priority
 end
 
-local function AddHook( modname, hook, priority, fn )
+local function AddHook( mod, hook, priority, fn )
     local current_hooks = hooks.GetHooks()[ hook ]
     if type( priority ) == "function" then
         fn = priority
         priority = nil
     end
 
-    table.insert( current_hooks, { modname=modname, priority=priority or hooks.Normal, fn=fn } )
+    table.insert( current_hooks, { mod=mod, priority=priority or hooks.Normal, fn=fn } )
     table.sort( current_hooks, SortHooks )
 end
 
@@ -19,7 +19,7 @@ local function index( mod, key )
         if hooks.HookExists( key ) then -- Hook
             local current_hooks = hooks.GetHooks()[ key ]
             return function( self, priority, fn )
-                AddHook( self.modname, key, priority, fn )
+                AddHook( self, key, priority, fn )
             end
         else
             print( "WARNING: MOD." .. key .. " was used. Did you mean to use a hook? Registering just in case" )
@@ -57,11 +57,23 @@ function Mod:Stop()
     for name, list in pairs( hooks.GetHooks() ) do
         local i = 1
         while i <= #list do
-            if list[ i ].modname == self.modname then
+            if list[ i ].mod == self then
                 table.remove( list, i )
             else
                 i = i + 1
             end
+        end
+    end
+
+    for name, data in pairs( server_commands ) do
+        if data.mod == self then
+            server_commands[ name ] = nil
+        end
+    end
+
+    for name, data in pairs( client_commands ) do
+        if data.mod == self then
+            client_commands[ name ] = nil
         end
     end
 end
