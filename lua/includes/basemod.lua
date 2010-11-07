@@ -1,14 +1,13 @@
-MOD = RegisterMod( "Base", "Nayruden", ".00000001 alpha" )
+MOD = RegisterMod( "Base", "Nayruden", ".1 alpha" )
 
-MOD:AddServerCommand( "reloadmod", function( player, args )
-    local space = args:find( " " )
-    if not space then
+MOD:AddServerCommand( "reloadmod", function( player, args, argv )
+    if #argv < 2 then
         print( "Usage: reload <mod>" )
         return
     end
 
     local mods = MOD:GetMods()
-    local modname = args:sub( space+1 ):strip():lower()
+    local modname = args:gsub( "^.-%s+", "" ) -- Strip first word and spacing
     if not mods[ modname ] then
         print( "Unknown mod" )
         return
@@ -18,16 +17,16 @@ MOD:AddServerCommand( "reloadmod", function( player, args )
     mods[ modname ]:Reload()
 end )
 
-MOD:AddServerCommand( "listmods", function( player, args )
+MOD:AddServerCommand( "listmods", function( player, args, argv )
     local mods = MOD:GetMods()
-    print( "boo" )
+    local template = "%-16s %-8s %s"
+    print( template:format( "Name", "Version", "Status" ) )
     for key, moddata in pairs( mods ) do
-        print( moddata.modname )
+        print( template:format( moddata.modname, moddata.version, moddata.stopped and "Stopped" or "Running" ) )
     end
 end )
 
-MOD:AddServerCommand( "luarun", function( player, args )
+MOD:AddServerCommand( "luarun", function( player, args, argc )
     args = args:gsub( "^luarun%s", "" )
     loadstring( args )()
 end )
--- TODO: Clear up command false positive unknown crap

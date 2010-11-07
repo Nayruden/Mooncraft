@@ -16,6 +16,7 @@ import org.keplerproject.luajava.*;
 
 public class Mooncraft {
 
+    public static String logger_name = "Minecraft";
     public static LuaState L;
     static LuaObject LCallHook;
 
@@ -25,6 +26,7 @@ public class Mooncraft {
         PlayerDisconnect("OnPlayerDisconnect"),
         PlayerChat("OnPlayerChat"),
         ServerCommand("OnServerCommand"),
+        ClientCommand("OnClientCommand"),
         Init("OnInit");
         protected String callback_name;
 
@@ -92,7 +94,7 @@ public class Mooncraft {
 
         Callback.Init.call();
 
-        MinecraftServer.main(args); // This will loop until server end
+        MooncraftServer.main(args); // This will loop until server end
     }
 
     private static void DoFile(String file) {

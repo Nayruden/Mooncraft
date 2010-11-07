@@ -1,5 +1,6 @@
 #!/bin/sh
 
+rm -rf diffs/*.java
 for f in orig/*.java
 do
     filename=$(basename $f)

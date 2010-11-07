@@ -10,6 +10,11 @@ public class Console implements ICommandIssuer {
 
     static Console console = new Console();
 
+    @Override
+    public String toString() {
+        return GetName();
+    }
+
     public String GetName() {
         return "CONSOLE";
     }

@@ -78,24 +78,23 @@ function Mod:Reload()
     self:Start()
 end
 
-local function OnServerCommand(player, args)
-    local command = args:sub( 1, args:find( " " ) ):lower():rstrip()
-    print( command, server_commands[ command ] )
-    if server_commands[ command ] then
-        server_commands[ command ].fn( player, args )
+local function OnServerCommand( player, args )
+    local argv = ParseArgs( args )
+    if server_commands[ argv[ 1 ] ] then
+        server_commands[ argv[ 1 ] ].fn( player, args, argv )
         return true -- Block other hooks
     end
 end
 AddHook( nil, "OnServerCommand", OnServerCommand )
 
-local function OnClientCommand(player, args)
-    local command = args:sub( 1, args:find( " " ) ):lower():rstrip()
-    if server_commands[ command ] then
-        server_commands[ command ].fn( player, args )
+local function OnClientCommand( player, args )
+    local argv = ParseArgs( args )
+    if client_commands[ argv[ 1 ] ] then
+        client_commands[ argv[ 1 ] ].fn( player, args, argv )
         return true -- Block other hooks
     end
 end
---AddHook( nil, "OnClientCommand", OnClientCommand )
+AddHook( nil, "OnClientCommand", OnClientCommand )
 
 function Mod:AddServerCommand( command, fn )
     server_commands[ command ] = { fn=fn, mod=self }

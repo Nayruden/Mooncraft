@@ -1,4 +1,5 @@
 
+import java.util.logging.Logger;
 import net.minecraft.server.MinecraftServer;
 
 /*
@@ -11,8 +12,9 @@ import net.minecraft.server.MinecraftServer;
 public class Server {
 
     static MinecraftServer server;
+    private static Logger logger = Logger.getLogger(Mooncraft.logger_name);
 
     public static void BroadcastMessage(String msg) {
-        server.f.a(new be(msg));
+        server.f.i(msg);
     }
 }

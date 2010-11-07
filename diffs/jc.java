@@ -1,5 +1,5 @@
 --- orig/jc.java	2010-11-04 23:53:10.000000000 -0500
-+++ src/jc.java	2010-11-06 16:59:11.000000000 -0500
++++ src/jc.java	2010-11-06 23:50:09.000000000 -0500
 @@ -66,7 +66,7 @@
          d1 = paramgx.a;
          d2 = paramgx.b;
@@ -9,7 +9,17 @@
          if ((d4 > 1.65D) || (d4 < 0.1D)) {
            c("Illegal stance");
            a.warning(this.e.ar + " had an illegal stance: " + d4);
-@@ -240,6 +240,15 @@
+@@ -188,6 +188,9 @@
+   }
+ 
+   public void a(String paramString) {
++    Player player = PlayerManager.GetByName(this.e.ar);
++    Mooncraft.Callback.PlayerDisconnect.call(player, paramString);
++    
+     a.info(this.e.ar + " lost connection: " + paramString);
+     this.d.f.c(this.e);
+     this.c = true;
+@@ -240,7 +243,20 @@
        }
      }
  
@@ -23,5 +33,10 @@
 +    }
 +
      if (str.startsWith("/")) {
++      Object res = Mooncraft.Callback.ClientCommand.call(player, str.substring(1));
++      if (res != null) { // Wants to be blocked
++          return;
++      }
        d(str);
      } else {
+       str = "<" + this.e.ar + "> " + str;

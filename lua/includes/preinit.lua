@@ -9,6 +9,7 @@ stringx.import()
 
 local table = table
 local print = print
+local pcall = pcall
 
 module( "hooks" )
 
@@ -28,8 +29,10 @@ function Call( hook, ... )
     for i=1, #list do
         data = list[ i ]
         if ret == nil or data.priority == PostHook then -- Ignore everything but post hooks if ret is set
-            local new_ret = list[ i ].fn( ... ) -- TODO: pcall
-            if new_ret ~= nil then
+            local success, new_ret = pcall( list[ i ].fn, ... )
+            if not success then
+                print( "Error in hook " .. hook .. ": " .. new_ret ) -- TODO: Standardize? Print trace?
+            elseif new_ret ~= nil then
                 -- Ignore if it's coming from pre or post hook
                 if data.priority ~= PreHook and data.priority ~= PostHook then
                     ret = new_ret
