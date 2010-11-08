@@ -13,4 +13,6 @@ public interface ICommandIssuer {
     public boolean IsConsole();
 
     public void SendMessage(String msg);
+
+    public boolean IsOp();
 }

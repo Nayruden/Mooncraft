@@ -31,4 +31,8 @@ public class Console implements ICommandIssuer {
         msg = msg.replaceAll("§\\p{XDigit}", "");
         System.out.println(msg);
     }
+
+    public boolean IsOp() {
+        return true;
+    }
 }

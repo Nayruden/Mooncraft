@@ -6,6 +6,7 @@
  * California, 94105, USA.
  */
 
+import java.util.Calendar;
 import java.util.logging.Logger;
 
 public class Player implements ICommandIssuer {
@@ -13,8 +14,11 @@ public class Player implements ICommandIssuer {
     private static final Logger logger = Logger.getLogger(Mooncraft.logger_name);
     public final eo player_obj;
 
+    private final long joined;
+
     public Player(eo player_obj) {
         this.player_obj = player_obj;
+        joined = Calendar.getInstance().getTimeInMillis();
     }
 
     @Override
@@ -24,6 +28,10 @@ public class Player implements ICommandIssuer {
 
     public String GetName() {
         return player_obj.ar;
+    }
+
+    public long GetTimeJoined() {
+        return joined;
     }
 
     public void Kick(String msg) {
@@ -37,5 +45,9 @@ public class Player implements ICommandIssuer {
 
     public boolean IsConsole() {
         return false;
+    }
+
+    public boolean IsOp() {
+        return Server.server.f.g(GetName());
     }
 }
