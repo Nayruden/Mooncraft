@@ -63,6 +63,13 @@ MOD:AddServerCommand( "luarun", function( player, args, argv )
         if not results[ 1 ] then
             player:SendMessage( results[ 2 ] )
         elseif collecting_results then
+            for i=1, #results do
+                if type( results[ i ] ) == "userdata" then
+                    results[ i ] = results[ i ]:toString()
+                else
+                    results[ i ] = tostring( results[ i ] )
+                end
+            end
             player:SendMessage( table.concat( results, "\t", 2 ) )
         end
     end

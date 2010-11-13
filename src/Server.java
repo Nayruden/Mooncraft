@@ -13,7 +13,7 @@ public class Server {
 
     static MinecraftServer server;
     static String MinecraftServerVersion;
-    static final String CompiledAgainstVersion = "0.2.3";
+    static final String CompiledAgainstVersion = "0.2.4";
     private static final Logger logger = Logger.getLogger(Mooncraft.logger_name);
 
     public static void LogInfo(String msg) {
@@ -33,6 +33,6 @@ public class Server {
     }
 
     public static void BroadcastMessage(String msg) {
-        server.f.a(new be(msg));
+        server.f.a(new bg(msg));
     }
 }

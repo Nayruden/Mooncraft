@@ -15,19 +15,19 @@ public class MooncraftServer extends MinecraftServer {
     @Override
     // This function seems to be called to INSERT commands to be processed.
     // We're probably pre-empting something here, but tests indicate it works okay.
-    public void a(String paramString, et paramet) {
+    public void a(String paramString, eu parameu) {
         ICommandIssuer command_issuer;
-        if (paramet.c().equals("CONSOLE")) {
+        if (parameu.c().equals("CONSOLE")) {
             command_issuer = Console.GetInstance();
         } else {
-            command_issuer = PlayerManager.GetByName(paramet.c());
+            command_issuer = PlayerManager.GetByName(parameu.c());
         }
         Object res = Mooncraft.Callback.ServerCommand.call(command_issuer, paramString);
         if (res != null) {
             return;
         }
 
-        super.a(paramString, paramet);
+        super.a(paramString, parameu);
     }
 
     public static void main(String[] paramArrayOfString) {
@@ -36,10 +36,10 @@ public class MooncraftServer extends MinecraftServer {
             Server.server = localMinecraftServer;
 
             if ((!GraphicsEnvironment.isHeadless()) && ((paramArrayOfString.length <= 0) || (!paramArrayOfString[0].equals("nogui")))) {
-                gg.a(localMinecraftServer);
+                gi.a(localMinecraftServer);
             }
 
-            new bv("Server thread", localMinecraftServer).start();
+            new bw("Server thread", localMinecraftServer).start();
         } catch (Exception localException) {
             a.log(Level.SEVERE, "Failed to start the minecraft server", localException);
         }

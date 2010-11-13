@@ -8,15 +8,21 @@
 
 import java.util.Calendar;
 import java.util.logging.Logger;
+import org.keplerproject.luajava.LuaException;
 
 public class Player implements ICommandIssuer {
+    /*
+     * Notes:
+     *  player_obj.c.a.ak.a is the bottom four rows of inventory (0-35)
+     *  player_obj.c.a.ak.b is the armor slots (100-103)
+     *  player_obj.c.a.ak.c is the crafting slots (80-83)
+     */
 
     private static final Logger logger = Logger.getLogger(Mooncraft.logger_name);
-    public final eo player_obj;
-
+    public final ep player_obj;
     private final long joined;
 
-    public Player(eo player_obj) {
+    public Player(ep player_obj) {
         this.player_obj = player_obj;
         joined = Calendar.getInstance().getTimeInMillis();
     }
@@ -49,5 +55,27 @@ public class Player implements ICommandIssuer {
 
     public boolean IsOp() {
         return Server.server.f.g(GetName());
+    }
+
+    public void UpdateInventory() {
+        player_obj.a.d();
+    }
+
+    public void SetInventory(int slot, int id, int amount) throws LuaException {
+        if (slot >= 0 && slot < 36) {
+            player_obj.c.a.ak.a[slot] = (id == 0 ? null : new hj(id, amount));
+        } else if (slot >= 100 && slot < 104) {
+            if (id < 298 || id > 317 || (id - 298) % 4 != (103 - slot)) {
+                throw new LuaException("invalid item id for slot");
+            }
+            player_obj.c.a.ak.b[slot - 100] = (id == 0 ? null : new hj(id, 1));
+        } else if (slot >= 80 && slot < 84) {
+            player_obj.c.a.ak.c[slot - 80] = (id == 0 ? null : new hj(id, amount));
+        } else {
+            // TODO: Error
+        }
+
+        // Doesn't show up for players without this call
+        UpdateInventory();
     }
 }

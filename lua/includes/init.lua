@@ -1,4 +1,7 @@
-require( "color" )
+require( "enums.color" )
+require( "enums.blocktype" )
+require( "enums.itemtype" )
+require( "enums.slot" )
 require( "utils" )
 require( "mod" )
 require( "basemod" )

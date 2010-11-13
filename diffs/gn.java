@@ -1,5 +1,5 @@
---- orig/gl.java
-+++ src/gl.java	2010-11-05 18:37:23.000000000 -0500
+--- orig/gn.java
++++ src/gn.java	2010-11-05 18:37:23.000000000 -0500
 @@ -17,9 +17,9 @@
    private MinecraftServer c;
    private ia d;
@@ -21,5 +21,5 @@
 +    Player player = PlayerManager.AddPlayer(parameo);
 +    Mooncraft.Callback.PlayerConnect.call(player);
    }
- 
+
    public void b(eo parameo) {

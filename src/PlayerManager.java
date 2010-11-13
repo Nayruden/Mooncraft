@@ -11,7 +11,7 @@ import java.util.*;
 public class PlayerManager {
     private static Map<String, Player> players = new TreeMap<String, Player>();
 
-    static Player AddPlayer(eo player_obj) {
+    static Player AddPlayer(ep player_obj) {
         Player player = new Player(player_obj);
         players.put(player_obj.ar, player);
         return player;
